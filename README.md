@@ -17,10 +17,10 @@
 
 ### 两步装好
 
-**第 1 步**：到本仓库的 Release 页面下载 `dsh-mcp-panel-0.1.0.tgz`，然后在终端执行：
+**第 1 步**：到本仓库的 Release 页面下载 `dsh-mcp-panel-0.1.1.tgz`，然后在终端执行：
 
 ```sh
-dsh plugin --profile web add ./dsh-mcp-panel-0.1.0.tgz
+dsh plugin --profile web add ./dsh-mcp-panel-0.1.1.tgz
 ```
 
 **第 2 步**：重启 DSH Web 服务（先停止当前的 `dsh web`，再重新启动）。
