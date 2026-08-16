@@ -1,0 +1,6 @@
+# dsh-mcp-panel bundle layer: one host row serving the /mcp-panel/* endpoints.
+# The package's dsh.client declaration (platform: web) hands the Web GUI the
+# MCP settings tab. Installed plugins add this layer via `dsh plugin add`.
+- insert:
+    - id: mcp-panel
+      name: dsh-mcp-panel
