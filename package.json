@@ -1,12 +1,13 @@
 {
   "name": "dsh-mcp-panel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "DSH MCP 管理面板：在设置-插件中新增 MCP 标签页，查看已安装 MCP 服务器的状态并一键启用/停用",
   "type": "module",
   "main": "index.js",
   "exports": {
     ".": "./index.js",
-    "./client": "./client.js"
+    "./client": "./client.js",
+    "./package.json": "./package.json"
   },
   "files": [
     "index.js",
