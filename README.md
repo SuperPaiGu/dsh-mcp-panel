@@ -2,6 +2,10 @@
 
 给 DeepSeek Harness（DSH）加一个 **MCP 管理面板**：在 Web GUI 的 **设置 → 插件** 里新增一个 **MCP** 标签页，查看已安装 MCP 服务器的运行状态、工具数量，并一键启用或停用。
 
+## 预览
+
+![ScreenShot_2026-08-18_013810_151](./assets/ScreenShot_2026-08-18_013810_151.png)
+
 ## 功能
 
 - 列出 cordis 配置中所有 `@deepseek-ai/dsh-mcp-client` 行（stdio / streamable-http 两种传输）

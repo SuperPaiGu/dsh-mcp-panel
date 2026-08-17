@@ -14,10 +14,54 @@ export const name = 'mcp-panel'
 export const inject = ['webServer', 'loader', 'tools']
 
 const MCP_CLIENT_NAME = '@deepseek-ai/dsh-mcp-client'
-const FIBER_STATES = ['pending', 'loading', 'active', 'failed', 'disposed', 'unloading']
+
+/** Runtime mirror: FiberState is a cordis const enum with no runtime object to import. */
+const FIBER_STATE = {
+  PENDING: 0,
+  LOADING: 1,
+  ACTIVE: 2,
+  FAILED: 3,
+  DISPOSED: 4,
+  UNLOADING: 5,
+}
+
+/**
+ * Complete projection of cordis Fiber states onto the panel's labels.
+ *
+ * DISPOSED maps to null because `Entry._dispose` clears `entry.fiber` before
+ * awaiting `fiber.dispose()`: a row observed through the loader never carries a
+ * fiber that reached DISPOSED. A null phase therefore takes the fiberless
+ * branch, which reports enablement instead of inventing a fourth outcome.
+ */
+const FIBER_PHASE = {
+  [FIBER_STATE.PENDING]: 'pending',
+  [FIBER_STATE.LOADING]: 'loading',
+  [FIBER_STATE.ACTIVE]: 'active',
+  [FIBER_STATE.FAILED]: 'failed',
+  [FIBER_STATE.DISPOSED]: null,
+  [FIBER_STATE.UNLOADING]: 'unloading',
+}
 
 function text(value) {
   return typeof value === 'string' ? value : ''
+}
+
+/**
+ * Label one row's lifecycle for the panel.
+ *
+ * A row without a live phase reports enablement rather than a fiber phase: that
+ * covers a not-yet-started entry, a failed import (which leaves the entry
+ * fiberless), and a disposed one. An unmirrored state number degrades to
+ * 'unknown' instead of rendering a label the client cannot style.
+ * @param fiber - the entry's root fiber, absent until the plugin import starts.
+ * @param disabled - the entry's effective enablement, ancestors included.
+ * @returns one of the states client.js can render.
+ */
+function resolveState(fiber, disabled) {
+  const phase = fiber ? FIBER_PHASE[fiber.state] : null
+  if (phase) return phase
+  if (fiber && phase === undefined) return 'unknown'
+  return disabled ? 'stopped' : 'loading'
 }
 
 /** Build the plain-JSON view of one MCP loader row. */
@@ -31,10 +75,7 @@ function describeEntry(entry, tools) {
   } catch {
     // a !!js disabled expression that fails to evaluate counts as enabled
   }
-  const fiber = entry.fiber
-  const state = fiber
-    ? (FIBER_STATES[fiber.state] || 'unknown')
-    : (disabled ? 'stopped' : 'loading')
+  const state = resolveState(entry.fiber, disabled)
   let toolCount = 0
   if (serverName && tools) {
     try {
