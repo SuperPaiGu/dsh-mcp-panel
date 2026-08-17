@@ -29,7 +29,7 @@ dsh plugin --profile web add ./dsh-mcp-panel-0.1.1.tgz
 
 **第 2 步**：重启 DSH Web 服务（先停止当前的 `dsh web`，再重新启动）。
 
-打开 **设置 → 插件 → MCP** 即可使用。安装后，在 **设置 → 插件 → 插件列表** 中会显示为 **`dsh-mcp-panel`**。
+打开 **设置 → 插件 → MCP** 即可使用。安装后，在 **设置 → 插件 → 插件列表** 中会显示为 **`mcp-panel`**。
 
 ### 从 GitHub 直接安装（不下载文件）
 
